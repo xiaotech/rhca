@@ -27,7 +27,7 @@ awk -F'[ ,]+' ...
 
 2. 使用语法
 
-###常见使用
+### 常见使用
 > awk 'action' {filename}
 
 * 打印passwd第一列
@@ -36,7 +36,7 @@ awk -F'[ ,]+' ...
 * 打印第一列和第三列的信息
 `awk -F: '{print $1,$3}' /etc/passwd`
 
-###正则
+### 正则
 > awk '/pattern/{action}' {filename}
 
 * 打印root行
@@ -46,7 +46,7 @@ awk -F: '/root/{print $0}' /etc/passwd
 
 awk -F: '$1~/root/{print $0}' /etc/passwd
 
-###判断,使用if一定要在{}中
+### 判断,使用if一定要在{}中
 > awk '{if(exp){action}}' {filename}
 
 awk -F: '$1=="root"{print $0}' /etc/passwd
