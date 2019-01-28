@@ -58,3 +58,38 @@ awk -F'[ ,]+' ...
 
 `awk -F: '{if($1=="root"){print $0}}' /etc/passwd`
 
+3. 循环
+
+> * awk '{while(exp){action}}' {filename}
+> * awk '{for(init;exp;action){action}}' {filename}
+```
+awk 'BEGIN{while(1){x++;print x;if (x==10)break}}'
+awk 'BEGIN{for(i=1;i<=10;i++){print i}}'
+
+
+4. 数组
+
+`awk 'BEGIN{ a[1]=1;a["two"]=2;for(i in a){print i,a[i]}}'`
+
+
+5. 字符串操作
+
+* 字符串替换gsub(src,dst,string)
+
+`awk 'BEGIN{info="this is test";gsub("is","IS",info);print info}'`
+
+* 字符串查找index(string,str),下标从1开始，未找到返回0
+
+`awk 'BEGIN{info="this is test";print index(info,"is")}'`
+
+* 字符串正则查处match(string,pattern)
+
+`awk 'BEGIN{info="this is test";print match(info,"is")}'`
+
+* 字符串截取substr(string,start_pos,len)
+
+`awk 'BEGIN{info="this is test";print substr(info,6,2)}'`
+
+* 字符串转数组split(string,A_name,"split")
+
+`awk 'BEGIN{info="this is test";split(info,A," ");for(i in A){print i,A[i]}}'`
