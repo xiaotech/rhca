@@ -40,6 +40,8 @@ awk -F'[ ,]+' ...
 > awk '/pattern/{action}' {filename}
 
 * 打印root行
+
+
 awk -F: '/root/{print $0}' /etc/passwd
 
 或
