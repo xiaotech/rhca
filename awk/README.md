@@ -94,3 +94,12 @@ awk 'BEGIN{for(i=1;i<=10;i++){print i}}'
 * 字符串转数组split(string,A_name,"split")
 
 `awk 'BEGIN{info="this is test";split(info,A," ");for(i in A){print i,A[i]}}'`
+
+
+# 高级应用
+
+查看git的历史提交，并统计每天的提交数
+
+`
+git log --stat|grep -e "Date: "  -e " changed"|awk -F'[:,]+' '{date[NR]=substr($2,0,length($2)-3);if($0 ~ / changed/){gsub(/[^0-9]+/,"",$2);gsub(/[^0-9]+/,"",$3);add[date[NR-1]]+=$2;del[date[NR-1]]+=$3}}END{for(i in add){print i","add[i]","del[i]}}'
+`
