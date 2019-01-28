@@ -62,10 +62,11 @@ awk -F'[ ,]+' ...
 
 > * awk '{while(exp){action}}' {filename}
 > * awk '{for(init;exp;action){action}}' {filename}
+
 ```
 awk 'BEGIN{while(1){x++;print x;if (x==10)break}}'
 awk 'BEGIN{for(i=1;i<=10;i++){print i}}'
-
+```
 
 4. 数组
 
