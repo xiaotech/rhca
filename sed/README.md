@@ -53,4 +53,4 @@
 
 8. 打印匹配行的下1行
 
-sed -n '/reg/{n;p}' filename
+`sed -n '/reg/{n;p}' filename`
