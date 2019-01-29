@@ -43,7 +43,7 @@
 
 `sed 's/reg/str/' filename`
 
-`sed 's/reg/**&**' filename`
+`sed 's/reg/**&**/' filename`
 
 `sed 's/\(reg\)/**\1**/' filename`
 
