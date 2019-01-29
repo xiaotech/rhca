@@ -47,7 +47,10 @@
 
 `sed 's/\(reg\)/**\1**/' filename`
 
-6.多个操作语句
+7. 多个操作语句
 
 `sed -e '/reg/d' -e '/reg1/d' filename`
 
+8. 打印匹配行的下1行
+
+sed -n '/reg/{n;p}' filename
