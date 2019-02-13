@@ -95,6 +95,13 @@ awk 'BEGIN{for(i=1;i<=10;i++){print i}}'
 
 `awk 'BEGIN{info="this is test";split(info,A," ");for(i in A){print i,A[i]}}'`
 
+* 获取字符串的长度
+
+`awk 'BEGIN{info="this is test";print length(info)}'`
+
+* 格式化输出printf
+
+`awk 'BEGIN{printf"%s-%s\n","hello","world"}'`
 
 # 高级应用
 
