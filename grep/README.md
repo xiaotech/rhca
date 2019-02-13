@@ -45,3 +45,7 @@
 11. 正则匹配
 
 `grep -E pattern text*`
+
+12. 多个条件匹配
+
+`grep -e pattern1 -e pattern2 file-name`
