@@ -46,4 +46,40 @@
 `find / -name *.conf -mtime -1 -perm 450 -size 1M`
 
 
+5. pwd显示当前所在路径
 
+* 显示真实的物理路径
+
+`pwd -P`
+
+* 显示逻辑路径
+
+`pwd -L`
+
+6. wc 统计次数
+
+`wc -l`
+
+`wc -w`
+
+`wc -c`
+
+
+7. sort 排序
+
+-t 分割符
+-k 关键字
+-nr 反向排序
+
+8. uniq
+
+-c 统计次数
+-i 忽略大小写
+
+9. ps 查看进程信息
+
+`ps aux`
+
+`ps -elf`
+
+`ps -eo pid,cmd,%cpu,%mem`
