@@ -23,3 +23,27 @@
 替换字符
 
 `echo helloworld|tr [root] [ROOT]`
+
+3. diff 比较文件和文件夹的不一样
+
+* 文件比较
+
+`diff file1 file2`
+
+`diff -y file1 file2`
+
+* 文件夹比较
+
+`diff -r dir1 dir2`
+
+* 只列出不一样的文件
+
+`diff -rq dir1 dir2`
+
+
+4. find 搜索文件
+
+`find / -name *.conf -mtime -1 -perm 450 -size 1M`
+
+
+
