@@ -83,3 +83,15 @@
 `ps -elf`
 
 `ps -eo pid,cmd,%cpu,%mem`
+
+10. /etc/skel用户目录初始文件
+
+`/etc/skel下面的文件会添加到新建的用户目录下面`
+
+11. ldconfig
+
+* 往/lib，/usr/lib下添加so文件，无需修改ld.so.conf,只需要执行ldconfig
+
+* 往其他地方添加so文件，需要修改ld.so.conf,然后执行ldconfig
+
+* 不能通过ldconfig修改的，修改LD_LIBRARY_PATH修改
