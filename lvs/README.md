@@ -1,6 +1,6 @@
 # LVS - linux virtual server
 
-* ## DR 模式
+1. ## DR 模式
 
   DR模式，客户端请求包到达负载均衡虚拟的IP端口后，负载均衡改写请求包的目的MAC地址为后端RS的MAC地址;
 
@@ -30,7 +30,7 @@ ifconfig lo:0 172.30.81.213/32
 ```
 
 
-* ## NAT模式
+2. ## NAT模式
 
   NAT模式数据包请求和返回都经过LB，LB对请求的数据包做NAT;
 对返回的数据包做SNAT
@@ -55,11 +55,11 @@ RS配置
 route add default gw 192.168.11.1
 ```
 
-* ## FULLNAT模式
+3. ## FULLNAT模式
   
   FULLNAT会对数据包的请求和返回都做SNAT和DNAT，对组网没有要求
 
-* ## 负载均衡模式
+4. ## 负载均衡模式
 
 1. rr  轮流调度
 
@@ -74,7 +74,7 @@ route add default gw 192.168.11.1
 6. sh 根据源IP做hash 
 
 
-* ## 操作命令
+5. ## 操作命令
 
 * -A 添加服务
 
