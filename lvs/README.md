@@ -39,9 +39,9 @@ ifconfig lo:0 172.30.81.213/32
 
 2. **RS的网关必须设置成LB的地址**
 
-3. **客户端和RS必须位于不同的子网**
+3. **LB和RS必须位于相同的子网,客户端和RS必须位于不同的子网**
 
-**配置步骤**
+*配置步骤*
 
 LB配置
 ```
@@ -55,5 +55,48 @@ RS配置
 route add default gw 192.168.11.1
 ```
 
+* ## FULLNAT模式
+  
+  FULLNAT会对数据包的请求和返回都做SNAT和DNAT，对组网没有要求
 
+* ## 负载均衡模式
+
+1. rr  轮流调度
+
+2. wrr 会根据rs配置的权重按比例分发
+
+3. lc 最小连接数
+
+4. wlc 加全最小连接数
+
+5. dh 根据目的IP做hash
+
+6. sh 根据源IP做hash 
+
+
+* ## 操作命令
+
+* -A 添加服务
+
+* -s 设置调度算法
+
+* -a 添加rs
+
+* -r real server
+
+* -g DR模式
+
+* -m NAT模式
+
+* -i tunnul模式
+
+* -b fullnat模式
+
+* -d 删除rs
+
+* -C 删除所有服务
+
+* ipvsadm -Sn > lvs.save 保存配置
+
+* ipvsadm -R < lvs.save 恢复配置
 
