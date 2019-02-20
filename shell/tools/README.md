@@ -95,3 +95,15 @@
 * 往其他地方添加so文件，需要修改ld.so.conf,然后执行ldconfig
 
 * 不能通过ldconfig修改的，修改LD_LIBRARY_PATH修改
+
+12. jq json的数据处理工具
+
+获取对应的数据
+
+`jq '.key.array[].key'`
+
+带选择的获取数据
+
+`jq '.key.array[]|select(.key.key=="str")|.key'`
+
+
