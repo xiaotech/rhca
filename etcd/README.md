@@ -22,7 +22,7 @@
 
 3. ## 实战
 
-3.1. ### 单节点
+### 单节点
 
 */etc/etcd/etcd.conf 配置*
 
@@ -41,7 +41,7 @@ initial-cluster: node193=http://172.30.81.193:2380
 **启动**
 `etcd --config-file /etc/etcd/etcd.conf`
 
-3.2. ### 添加节点
+### 添加节点
 
 ```
 1. etcd member add node194 http://172.30.81.194:2380
@@ -62,13 +62,27 @@ etcd --config-file /etc/etcd/etcd.conf
 
 ```
 
-3.3. ### 删除节点
+### 删除节点
 
 ```
 etcdctl member list
 etcdctl member remove id
 ```
 
-3.4. ### 备份恢复
+### 备份恢复
+
+备份 data-dir目录
+
+### 常用操作
+
+查看集群节点
+
+`etcdctl member list`
+
+查看集群健康
+
+`etcdctl cluster-health`
+
+
 
  
