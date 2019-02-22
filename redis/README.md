@@ -41,4 +41,31 @@ slaveof master-ip master-port
 
 ## 哨兵模式
 
+> 监控主和从，自动切换主从
 
+1 sentinel(193) + 1 master(192) + 2 slave(193,194)
+
+*sentinel配置*
+
+```
+daemonize yes
+pidfile "/var/run/redis/redis-sentinel.pid"
+logfile "/var/log/redis/redis-sentinel.log"
+bind 0.0.0.0
+port 26379
+dir "/var/lib/redis"
+sentinel monitor mymaster 172.30.81.192 6379 1
+sentinel down-after-milliseconds mymaster 3000
+sentinel failover-timeout mymaster 10000
+sentinel parallel-syncs mymaster 2
+sentinel config-epoch mymaster 204
+maxclients 4064
+sentinel leader-epoch mymaster 204
+sentinel known-slave mymaster 172.30.81.194 6379
+sentinel known-slave mymaster 172.30.81.193 6379
+sentinel current-epoch 204
+```
+
+确保sentinel有写redis.conf和sentinel.conf的权限
+
+主从切换后，sentinel会改写上述文件
