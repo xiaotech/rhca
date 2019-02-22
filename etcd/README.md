@@ -107,8 +107,10 @@ LimitNOFILE=40000
 WantedBy=multi-user.target
 ```
 
-systemctl daemon-reload
-systemctl enable etcd
-systemctl start etcd
+`systemctl daemon-reload`
+
+`systemctl enable etcd`
+
+`systemctl start etcd`
 
  
