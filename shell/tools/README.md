@@ -106,4 +106,6 @@
 
 `jq '.key.array[]|select(.key.key=="str")|.key'`
 
+13. split 分割文件
 
+`split -b sizeK file prefix_`
