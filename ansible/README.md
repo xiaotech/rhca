@@ -123,7 +123,42 @@ ansible-doc show <module-name>
         msg: "{{name}}"
 ```
 
-## 4. 并发，超时，委托 
+## 4. 基于role编写playbook
+
+入口文件main.yml
+
+```
+---
+- hosts: 172.30.81.193
+  gather_facts: false
+  roles:
+    - {role: r1}
+```
+
+role的布局
+
+```
+.
+├── main.yml
+└── roles
+    └── r1
+        ├── tasks
+        │   └── main.yml
+        ├── templates
+        └── vars
+            └── main.yml
+```
+
+task-> main.yml
+
+```
+---
+- name: show msg
+  debug:
+    msg: "this is {{name}}"
+```
+
+## 5. 并发，超时，委托 
 
 *超时*
 
