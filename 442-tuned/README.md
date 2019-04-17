@@ -11,10 +11,15 @@
 * sar
 
 sar可以保存历史数据，后续分析
+
 sar 1 1 -o save.data
+
 cpu: -q -u
+
 mem: -r
+
 disk: -d
+
 network: -n DEV
 
 * gnuplot 绘图
