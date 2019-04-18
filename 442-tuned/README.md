@@ -47,3 +47,9 @@ network: -n DEV
 # user 资源限制
 
 通过登录pam的限制,/etc/security/limits.conf配置
+
+# cgroup资源限制
+
+ubuntu 安装 cgroup-tools 
+
+相关设置在下面，/sys/fs/cgroup，将对应进程id > tasks
