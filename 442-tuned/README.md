@@ -37,3 +37,9 @@ network: -n DEV
 3. cfq: 完全公平调度算法，有三个优先级，最复杂的调度算法，默认的调度算法
 
 4. anticipatory: 读之后有延迟的算法，适用于大文件顺序读场景
+
+# cpu调度
+
+1. chrt [-f pri | -r pri ] command ,实时系统调度
+
+2 . renice -n pri pid , nice -n pri command 调度优先级
