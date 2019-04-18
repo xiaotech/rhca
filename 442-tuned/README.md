@@ -43,3 +43,7 @@ network: -n DEV
 1. chrt [-f pri | -r pri ] command ,实时系统调度
 
 2 . renice -n pri pid , nice -n pri command 调度优先级
+
+# user 资源限制
+
+通过登录pam的限制,/etc/security/limits.conf配置
