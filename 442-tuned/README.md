@@ -53,3 +53,14 @@ network: -n DEV
 ubuntu 安装 cgroup-tools 
 
 相关设置在下面，/sys/fs/cgroup，将对应进程id > tasks
+
+# 进程资源查看
+
+1. strace [-f子进程 | -c 统计调用 | -p 进程id ] cmd
+
+2. ltrace -f -c -S[统计系统调用] cmd -p 
+
+3. systemtap
+
+
+* 内存调优
