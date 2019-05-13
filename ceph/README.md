@@ -163,3 +163,53 @@ host_base = ceph.x:7480
 host_bucket = %(bucket).ceph.x:7480
 ```
 
+
+# libvirt 使用ceph
+
+```
+
+1. ceph端操作
+
+创建存储池
+ceph osd pool create libvirt-pool 128 128
+
+创建libvirt授权用户
+ceph auth get-or-create client.libvirt mon 'allow r' osd 'allow class-read object_prefix rbd_children, allow rwx pool=libvirt-pool'
+
+2. libvirt端操作
+
+拷贝ceph.conf和client admin key
+
+创建快照测试
+qemu-img create -f rbd rbd:libvirt-pool/new-libvirt-image 2G 和在ceph端创建rbd文件一样效果
+
+
+libvirt配置认证
+cat > secret.xml <<EOF
+<secret ephemeral='no' private='no'>
+        <usage type='ceph'>
+                <name>client.libvirt secret</name>
+        </usage>
+</secret>
+EOF
+
+virsh secret-define --file secret.xml
+
+ceph auth get-key client.libvirt | sudo tee client.libvirt.key
+virsh secret-set-value --secret {uuid of secret} --base64 $(cat client.libvirt.key) && rm client.libvirt.key secret.xml
+
+vm xml配置
+
+...
+<disk type='network' device='disk'>
+        <source protocol='rbd' name='libvirt-pool/new-libvirt-image'>
+                    <host name='{monitor-host}' port='6789'/>
+        </source>
+        <auth username='libvirt'>
+          <secret type='ceph' uuid='9ec59067-fdbc-a6c0-03ff-df165c0587b8'/>
+        </auth>
+        <target dev='vda' bus='virtio'/>
+</disk>
+
+
+3. openstack与ceph集成，主要配置glance，nova，cinder 加入 user，pool，secret文件
