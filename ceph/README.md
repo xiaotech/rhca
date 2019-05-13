@@ -33,7 +33,7 @@ node194 ：osd
 *node192执行*
 
 ```
-ceph-deploy new node193 # 会在192上当前目录生成配置文件和日志，可以考虑添加如下参数
+ceph-deploy new node193 # 初始化集群信息，会在192上当前目录生成配置文件和日志，可以考虑添加如下参数
 
 osd pool default size = 2
 public network = 172.30.81.0/24
@@ -57,6 +57,20 @@ ceph-deploy osd create --data /dev/vdb node194
 
 ```
 
+
+# osd的删除
+
+```
+ceph osd out osd.1 #权重设为0，pg迁移,ceph osd in osd.1迁入
+systemctl stop ceph-osd@1.service # 停止服务
+ceph osd crush remove osd.1 # crush 中删除
+ceph osd rm 1 # 集群中删除
+ceph auth del osd.1 #删除key，否则再次加入会导致key不匹配
+```
+
+
+
+
 # mgr 的安装
 
 ```
@@ -76,3 +90,76 @@ ceph mgr services  # 查看endpoint，注意ceph config set mgr mgr/dashboard/se
 
 dashboard set-login-credentials admin admin # 设置用户名密码
 ```
+
+
+# crush 设置，数据最终落在哪个osd，由crush确定
+
+```
+ceph osd crush getcrushmap -o crushmap.key #获取加密的crushmap
+crushtool -d crushmap.key -o crushmap #解密crushmap
+ceph osd crush set crushmap -i crushmap.key # 配置crushmap
+
+命令行方式
+
+ceph osd crush add-bucket name type #添加bucket
+ceph osd crush move entry type=bucket-name #把entry移动到对应bucket下
+
+ceph osd crush rule create-simple name root type # 添加rule，首次查找root，故障域type
+
+```
+
+# pool ,数据存储的逻辑单元，所有的对象都存在pool中，pool和rule绑定决定数据在哪个osd
+
+# 块存储的使用
+
+```
+rados mkpool rbd  #创建rbd pool
+
+ceph osd pool application enable rbd rbd 设置rbd pool 应用为rbd
+
+rbd create test1 --size 1024M # 创建1G的快存储
+
+rbd map test1 # 映射块驱动，如出错ceph osd crush tunables hammer
+
+rbd showmapped # 查看映射
+
+```
+
+# 文件系统使用,mds已安装
+
+```
+ceph osd pool create cephfs_data 32 32 # 创建数据存储池
+
+ceph osd pool create cephfs_metadata 32 32 # 创建元数据存储池
+
+ceph fs new cephfs cephfs_metadata cephfs_data # 创建cephfs
+
+
+ceph-fuse -m 172.30.81.193:6789 /mntfs # 用户态挂载数据
+
+mount -t ceph 172.30.81.193:/ /cephfs/ -o name=admin,secret=AQAdoNNcdaYaGhAACoWCmeoN5Nx82y03+yOLbg== # 内核态的挂载
+
+```
+
+# 对象存储的使用，rgw已安装
+
+```
+radosgw-admin user create --uid=xj-id --display-name=xiaojun --system # 创建对象存储的用户
+
+radosgw-admin user info --uid=xj-id # 查询用户的key
+
+
+dashboard要可用设置如下：
+
+ceph dashboard set-rgw-api-access-key ***
+ceph dashboard set-rgw-api-secret-key ***
+
+
+s3cmd等使用配置如下
+dns服务器泛域名解析,ceph.conf配置加入rgw dns name = ceph.x
+
+key 填对,/root/.s3cfg
+host_base = ceph.x:7480
+host_bucket = %(bucket).ceph.x:7480
+```
+
