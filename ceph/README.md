@@ -95,9 +95,9 @@ dashboard set-login-credentials admin admin # 设置用户名密码
 # crush 设置，数据最终落在哪个osd，由crush确定
 
 ```
-ceph osd crush getcrushmap -o crushmap.key #获取加密的crushmap
+ceph osd getcrushmap -o crushmap.key #获取加密的crushmap
 crushtool -d crushmap.key -o crushmap #解密crushmap
-ceph osd crush set crushmap -i crushmap.key # 配置crushmap
+ceph osd  setcrushmap -i crushmap.key # 配置crushmap
 
 命令行方式
 
