@@ -106,6 +106,11 @@ ceph osd crush move entry type=bucket-name #把entry移动到对应bucket下
 
 ceph osd crush rule create-simple name root type # 添加rule，首次查找root，故障域type
 
+
+
+手动管理crush
+osd crush update on start = false
+
 ```
 
 # pool ,数据存储的逻辑单元，所有的对象都存在pool中，pool和rule绑定决定数据在哪个osd
@@ -213,3 +218,25 @@ vm xml配置
 
 
 3. openstack与ceph集成，主要配置glance，nova，cinder 加入 user，pool，secret文件
+
+```
+
+# ceph 状态
+
+1. active: ceph互联完成互联
+
+2. clean： ceph互联成功，没有偏离的pg,副本数达到指定数量
+
+3. degrade： 主osd接收数据写入，副本osd在没有完成写入向主osd报告前
+
+4. recovering： 某osd挂了，pg状态落后其他osd，启动后数据处于恢复状态
+
+5. backfill: 新osd加入，crush将现有集群的部分pg分配给他，处于回填中
+
+6. unclean: 副本时没有达到指定的数
+
+7. inactive:  不能提供读写服务，等待最新的osd回到up状态
+
+8. stale： osd有阵子没有想监视器报告状态了
+
+9. remapping: osd添加，删除pg重新映射 
