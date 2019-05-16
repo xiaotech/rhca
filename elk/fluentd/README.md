@@ -22,6 +22,9 @@ index_name    fluentd.${tag}
 type_name     my_type
 flush_interval 2s #及时刷新缓冲区
 include_timestamp true
+
+logstash_format true #logstash的格式
+logstash_prefix app.${tag}
 </match>
 
 ``` 
@@ -37,7 +40,27 @@ syslog收集
   tag syslog
   refresh_interval 2s
   read_from_head true
-  format syslog  #可以使用none，apache等
+  format syslog  #可以使用none，apache2,正则等
 </source>
 ```
 
+添加字段
+
+```
+<filter syslog>
+  @type record_transformer
+  <record>
+    hostname "xi"
+  </record>
+</filter> 
+
+```
+
+
+source日志源的正则格式化
+
+```
+[2013-02-28 12:00:00 +0900] alice engineer 1
+
+format /^\[(?<logtime>[^\]]*)\] (?<name>[^ ]*) (?<title>[^ ]*) (?<id>\d*)$/
+```
