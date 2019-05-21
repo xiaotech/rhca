@@ -18,6 +18,8 @@
 
 ```
 ifconfig eth0:0 172.30.81.213/24
+route add -host 172.30.81.213 dev eth0:0
+
 ipvsadm -A -t 172.30.81.213:80 -s rr
 ipvsadm -a -t 172.30.81.213:80 -r 172.30.81.194 -g
 ipvsadm -a -t 172.30.81.213:80 -r 172.30.81.194 -g
@@ -27,8 +29,17 @@ ipvsadm -a -t 172.30.81.213:80 -r 172.30.81.194 -g
 
 ```
 ifconfig lo:0 172.30.81.213/32
+route add -host 172.30.81.213 dev lo:0
+
+echo 1 >/proc/sys/net/ipv4/conf/all/arp_ignore
+echo 1 >/proc/sys/net/ipv4/conf/ens3/arp_ignore
+
+echo 2 >/proc/sys/net/ipv4/conf/all/arp_announce
+echo 2 >/proc/sys/net/ipv4/conf/ens3/arp_announce
+
 ```
 
+*注意:client在其他子网的时候，要注意网关不要根据来包更新arp缓存，否则rs回包会导致一直访问同一rs*
 
 2. ## NAT模式
 
