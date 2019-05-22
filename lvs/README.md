@@ -70,7 +70,7 @@ route add default gw 192.168.11.1
 # tun模式
 
   工作原理：client 请求 lvs vip(cip->vip)，lvs调度到后端服务器将报文封装发给real server(vip->rip1:[cip->vip]);
-real服务器直接返回到客户端(rip1->client),和Dr模式有一定相似，dr改写数据包m，tun封装数据包可以跨网段工作
+real服务器直接返回到客户端(vip->client),和Dr模式有一定相似，dr改写数据包m，tun封装数据包可以跨网段工作,real server要关闭原地址校验
 
 LB配置：
 
