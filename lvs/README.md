@@ -66,11 +66,43 @@ RS配置
 route add default gw 192.168.11.1
 ```
 
-3. ## FULLNAT模式
+
+# tun模式
+
+  工作原理：client 请求 lvs vip(cip->vip)，lvs调度到后端服务器将报文封装发给real server(vip->rip1:[cip->vip]);
+real服务器直接返回到客户端(rip1->client),和Dr模式有一定相似，dr改写数据包m，tun封装数据包可以跨网段工作
+
+LB配置：
+
+```
+modprobe ipip
+ip addr add 172.30.81.199/24 tunl0
+ip link set tunl0 up
+
+ipvsadmin -A -t 172.30.81.199:80 -s rr
+ipvsadmin -a -t 172.30.81.199:80 -r 172.30.81.193 -i
+ipvsadmin -a -t 172.30.81.199:80 -r 172.30.81.194 -i
+```
+
+后端服务器
+
+```
+sysctl -w net.ipv4.conf.lo.rp_filter=0
+sysctl -w net.ipv4.conf.ens3.rp_filter=0
+sysctl -w net.ipv4.conf.tunl0.rp_filter=0
+net.ipv4.conf.default.rp_filter = 0
+
+modprobe ipip
+ip addr add 172.30.81.199/32 dev tunl0
+ip link set tunl0 up
+```
+
+
+4. ## FULLNAT模式
   
   FULLNAT会对数据包的请求和返回都做SNAT和DNAT，对组网没有要求
 
-4. ## 负载均衡模式
+5. ## 负载均衡模式
 
 1. rr  轮流调度
 
