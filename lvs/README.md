@@ -90,6 +90,7 @@ ipvsadmin -a -t 172.30.81.199:80 -r 172.30.81.194 -i
 sysctl -w net.ipv4.conf.lo.rp_filter=0
 sysctl -w net.ipv4.conf.ens3.rp_filter=0
 sysctl -w net.ipv4.conf.tunl0.rp_filter=0
+sysctl -w net.ipv4.conf.all.rp_filter=0
 net.ipv4.conf.default.rp_filter = 0
 
 modprobe ipip
